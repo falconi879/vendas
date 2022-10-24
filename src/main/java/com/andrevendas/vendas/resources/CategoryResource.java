@@ -1,4 +1,4 @@
-package com.andrevendas.vendas.resouurces;
+package com.andrevendas.vendas.resources;
 
 import java.util.List;
 
