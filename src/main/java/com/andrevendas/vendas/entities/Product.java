@@ -1,14 +1,17 @@
 package com.andrevendas.vendas.entities;
 
 import java.io.Serializable;
+import java.util.HashSet;
 import java.util.Objects;
+import java.util.Set;
 
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
+import javax.persistence.JoinTable;
+import javax.persistence.ManyToMany;
 import javax.persistence.Table;
 
 @Entity
@@ -25,23 +28,23 @@ public class Product implements Serializable {
 	private Double price;
 	private String imgurl;
 	
-	@ManyToOne
-	@JoinColumn(name = "categoria_id")
-	private Category categories;
+	@ManyToMany
+	@JoinTable(name = "tb_product_category", joinColumns =  @JoinColumn(name = "product_id"),
+	inverseJoinColumns = @JoinColumn(name = "category_id"))
+	private Set<Category> categories = new HashSet<>();
 	
 	public Product() {
 		
 	}
 
-	public Product(Long id, String nome, String descrition, Double price, String imgurl, Category category) {
+	public Product(Long id, String nome, String descrition, Double price, String imgurl) {
 
 		this.id = id;
 		this.nome = nome;
 		this.descrition = descrition;
 		this.price = price;
 		this.imgurl = imgurl;
-		this.categories = category;
-		
+			
 	}
 
 	public Long getId() {
@@ -84,10 +87,10 @@ public class Product implements Serializable {
 		this.imgurl = imgurl;
 	}
 
-	public Category getCategory() {
+	public Set<Category> getCategories() {
 		return categories;
 	}
-
+		
 	public static long getSerialversionuid() {
 		return serialVersionUID;
 	}
@@ -108,5 +111,4 @@ public class Product implements Serializable {
 		Product other = (Product) obj;
 		return Objects.equals(id, other.id);
 	}
-	
 }

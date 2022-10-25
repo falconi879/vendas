@@ -12,6 +12,8 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
+import com.andrevendas.vendas.entities.enums.OrderSatus;
+
 @Entity
 @Table(name = "te_order")
 public class Order implements Serializable {
@@ -21,6 +23,8 @@ public class Order implements Serializable {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
 	private Instant moment;
+	
+	private OrderSatus orderStatus;
 	
 	@ManyToOne
 	@JoinColumn(name = "client_id")
@@ -32,10 +36,11 @@ public class Order implements Serializable {
 	}
 
 
-	public Order(Long id, Instant moment, User client) {
+	public Order(Long id, Instant moment, OrderSatus orderStatus, User client) {
 		super();
 		this.id = id;
 		this.moment = moment;
+		this.orderStatus = orderStatus;
 		this.client = client;
 	}
 
@@ -54,9 +59,16 @@ public class Order implements Serializable {
 		return moment;
 	}
 
-
 	public void setMoment(Instant moment) {
 		this.moment = moment;
+	}
+
+	public OrderSatus getOrderStatus() {
+		return orderStatus;
+	}
+
+	public void setOrderStatus(OrderSatus orderStatus) {
+		this.orderStatus = orderStatus;
 	}
 
 
