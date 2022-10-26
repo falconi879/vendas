@@ -11,6 +11,7 @@ import org.springframework.context.annotation.Profile;
 import com.andrevendas.vendas.entities.Category;
 import com.andrevendas.vendas.entities.Order;
 import com.andrevendas.vendas.entities.OrderItem;
+import com.andrevendas.vendas.entities.Payment;
 import com.andrevendas.vendas.entities.Product;
 import com.andrevendas.vendas.entities.User;
 import com.andrevendas.vendas.entities.enums.OrderSatus;
@@ -47,13 +48,12 @@ public class TestConfig implements CommandLineRunner {
 
 		usuarioRepositorio.saveAll(Arrays.asList(u1,u2));
 		
-		Order o1 = new Order(null, Instant.parse("2019-06-20T19:53:07Z"),OrderSatus.AGUARDANDO_PAGMENTO, u1); 
+		Order o1 = new Order(null, Instant.parse("2019-06-20T19:53:07Z"),OrderSatus.PAGO, u1); 
 		Order o2 = new Order(null, Instant.parse("2019-07-21T03:42:10Z"), OrderSatus.AGUARDANDO_ENVIO, u2); 
 		Order o3 = new Order(null, Instant.parse("2019-07-22T15:21:22Z"), OrderSatus.FINALIZADO, u1);
 		
 		pedidoRepositorio.saveAll(Arrays.asList(o1,o2,o3));
 				
-		
 		Category cat1 = new Category(null, "Informatica");
 		Category cat2 = new Category(null, "Escritorio");
 
@@ -82,6 +82,11 @@ public class TestConfig implements CommandLineRunner {
 		OrderItem oi4 = new OrderItem(o3, prod5, 2, prod5.getPrice()); 
 		
 		ordemItemRepositorio.saveAll(Arrays.asList(oi1,oi2,oi3,oi4));
+		
+		Payment pay1 = new Payment(null, Instant.parse("2019-06-20T21:53:07Z"), o1);
+		o1.setPayment(pay1);
+		
+		pedidoRepositorio.save(o1);
 	}
 
 	
